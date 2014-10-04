@@ -1,0 +1,181 @@
+
+
+@base-color: #DEF1FA;
+
+
+
+body {
+	background-color: @base-color;
+    font-family: sans-serif;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.3em;
+    min-width: 300px;
+}
+.form__input {
+    border : 2px inset rgb(238, 238, 238);
+    border-radius: 12px;
+    padding: 4px;
+}
+.form__input--short {
+    width: 3em;
+}
+.form__input--wide {
+    resize : vertical;
+    width: 97%;
+    @media (min-width:500px) {
+        min-height: 80px;
+    }
+}
+.text_center {
+    text-align: center;
+}
+.form__row {
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+}
+.form__row:last-of-type {
+    border-bottom: 0 none;
+}
+.from__label {
+    display: inline-block;
+    width: 120px;
+    @media (min-width:500px) {
+        width: 200px;
+    }
+    &.form__label--wide {
+        width: auto;
+    }
+}
+.page {
+    padding: 12px 5% 0 5%;
+}
+
+label[title]{
+    &:after {
+        content : " (?)";
+    }
+    @media (min-width:500px) {
+        &:after {
+            color: #888;
+            content : attr(title);
+            display: block;
+            font-size: 80%;
+        }
+    }
+}
+
+h1 {
+    display: none;
+    line-height: 130%;
+    @media (min-width:500px) {
+        display: block;
+        text-align: center;
+    }
+}
+
+@media (min-width:500px) {
+    form {
+        background-color: white;
+        border: 1px solid #888;
+        border-radius: 12px;
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.3) inset;
+        padding: 14px 20px;
+    }
+    input, textarea {
+        background-color: @base-color;
+    }
+}
+
+/**
+ * iOS 6 style switch checkboxes
+ * by Lea Verou http://lea.verou.me
+ */
+
+.form__ios-switch { 
+    opacity: 0;
+    position: absolute;
+}
+
+.form__ios-switch + div {
+    border: 1px solid rgba(0,0,0,.3);
+    border-radius: 999px;
+    background: white;
+    background-image: linear-gradient(rgba(0,0,0,.1), transparent),
+                      linear-gradient(90deg, hsl(210, 90%, 60%) 50%, transparent 50%);
+    background-size: 200% 100%;
+    background-position: 100% 0;
+    background-origin: border-box;
+    background-clip: border-box;
+    box-shadow: 0 .1em .1em rgba(0,0,0,.2) inset,
+                0 .45em 0 .1em rgba(0,0,0,.05) inset;
+    display: inline-block;
+    font-size: 150%; /* change this and see how they adjust! */
+    margin: 0 .1em;
+    overflow: hidden;
+    transition-duration: .4s;
+    transition-property: padding, width, background-position, text-indent;
+    vertical-align: middle;
+    width: 3em; height: 1em;
+}
+
+.form__ios-switch:checked + div {
+    background-position: 0 0;
+    padding-left: 2em;  width: 1em;
+}
+
+.form__ios-switch + div:before {
+    background: white;
+    background-image: linear-gradient(rgba(0,0,0,.2), transparent);
+    border-radius: inherit;
+    border: 1px solid rgba(0,0,0,.35);
+    box-shadow: 0 .1em .1em .1em hsla(0,0%,100%,.8) inset,
+                0 0 .5em rgba(0,0,0,.3);
+    color: white;
+    content: 'On';
+    float: left;
+    margin: -.1em;
+    text-indent: -2.5em;
+    text-shadow: 0 -1px 1px rgba(0,0,0,.3);
+    width: 1.65em; height: 1.65em;
+}
+
+.form__ios-switch:active + div:before {
+    background-color: #eee;
+}
+
+.form__ios-switch + div:before,
+.form__ios-switch + div:after {
+    font: bold 60%/1.9 sans-serif;
+    text-transform: uppercase;
+}
+
+.form__ios-switch + div:after {
+    color: rgba(0,0,0,.45);
+    content: 'Off';
+    float: left;
+    text-indent: .5em;
+    text-shadow: none;
+
+}
+
+
+/* Switch code ends here, from now on it’s just bling for the demo page */
+
+.form__ios-switch-container {
+    padding: 0;
+    position: relative;
+}
+
+.form__ios-switch-container:first-of-type {
+    border-radius: .6em .6em 0 0;
+    border-top-width: 1px;
+}
+
+.form__ios-switch-container:last-of-type {
+    border-radius: 0 0 .6em .6em;
+   // box-shadow: 0 1px hsla(0,0%,100%,.8);
+}
+
+

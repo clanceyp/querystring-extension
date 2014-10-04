@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
+        <link href="styles/popup.less" rel="stylesheet/less">
+        <script src="scripts/vendor/less.js"></script>
+        <script src="scripts/vendor/zepto.js"></script>
+        <style>
+        </style>
+    </head>
+    <body>
+
+        <div class="page">
+            <h1>Optimizely Experiment Previewer</h1>
+            <form>
+                <div class="form__row">
+                    <label class="form__ios-switch-container"><span class="from__label">Optimizely Test</span>
+                        <input type="checkbox" name="active" class="form__ios-switch" checked /><div class="switch"></div>
+                    </label>
+                </div>
+                <div class="form__row">
+                    <label for="experiment" class="from__label">Experiment</label>
+                    <input type="text" name="experiment" id="experiment" class="form__input text_center" />
+                </div>
+                <div class="form__row">
+                    <label for="variant" class="from__label">Variant</label>
+                    <input type="text" name="variant" id="variant" class="form__input form__input--short text_center" />
+                </div>
+                <div class="form__row">
+                    <label for="allowedUrls" class="from__label form__label--wide" title="Line-break separated list of domains to which the query string will be added">URLs</label>
+                    <input type="hidden" name="allowedUrls"  />
+                    <textarea data-linebreak="true" id="allowedUrls" rows="3" class="form__input form__input--wide"></textarea>
+                </div>
+
+            </form>
+
+        </div>
+        <!-- build:js scripts/popup.js -->
+        <script src="scripts/popup.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>

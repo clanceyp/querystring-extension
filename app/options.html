@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+    <head>
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
+        <link href="styles/popup.less" rel="stylesheet/less">
+        <script src="scripts/vendor/less.js"></script>
+        <script src="scripts/vendor/zepto.js"></script>
+        <script src="scripts/vendor/knockout-3.2.0.js"></script>
+        <style>
+            .experience__item__experience {
+                width : 200px;
+            }
+            .experience__item__id {
+                width : 100px;
+            }
+            .experience__item__variant {
+                width : 60px
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="page">
+            <h1>Optimizely Experiment Previewer</h1>
+            <form class="experience__form">
+                <p>You have asked for <span data-bind='text: experiences().length'>&nbsp;</span> gift(s)</p>
+                <table data-bind='visible: experiences().length > 0'>
+                    <thead>
+                        <tr>
+                            <th>Experience URL</th>
+                            <th>ID</th>
+                            <th>Default variant</th>
+                            <td>Online</td>
+                            <td></td>
+                        </tr>
+                    </thead>
+                    <tbody data-bind='foreach: experiences'>
+                        <tr>
+                            <td><input class='experience__item experience__item__experience' data-bind='value: url' /></td>
+                            <td><input class='experience__item experience__item__id' data-bind='value: id' /></td>
+                            <td><input class='experience__item experience__item__variant' data-bind='value: variant' /></td>
+                            <td><input class='active' type="checkbox" data-bind='checked: active' /></td>
+                            <td><a href='#' data-bind='click: $root.removeExperience'>Remove</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button data-bind='click: addExperience'>Add Experience</button>
+                <!--
+                    <button data-bind='enable: experiences().length > 0' type='submit'>Submit</button>
+                -->
+            </form>
+        </div>
+        <!-- build:js scripts/popup.js -->
+        <script src="scripts/options.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>
