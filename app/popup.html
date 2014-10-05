@@ -17,22 +17,17 @@
             <h1>Optimizely Experiment Previewer</h1>
             <form>
                 <div class="form__row">
-                    <label class="form__ios-switch-container"><span class="from__label">Optimizely Test</span>
+                    <label class="form__ios-switch-container"><span class="form__label form__lable--title">Optimizely <span class="form__title"></span></span>
                         <input type="checkbox" name="active" class="form__ios-switch" checked /><div class="switch"></div>
                     </label>
                 </div>
-                <div class="form__row">
-                    <label for="experiment" class="from__label">Experiment</label>
+                <div class="form__row" style="display:none">
+                    <label for="experiment" class="form__label">Experiment</label>
                     <input type="text" name="experiment" id="experiment" class="form__input text_center" />
                 </div>
                 <div class="form__row">
-                    <label for="variant" class="from__label">Variant</label>
+                    <label for="variant" class="form__label">Variant</label>
                     <input type="text" name="variant" id="variant" class="form__input form__input--short text_center" />
-                </div>
-                <div class="form__row">
-                    <label for="allowedUrls" class="from__label form__label--wide" title="Line-break separated list of domains to which the query string will be added">URLs</label>
-                    <input type="hidden" name="allowedUrls"  />
-                    <textarea data-linebreak="true" id="allowedUrls" rows="3" class="form__input form__input--wide"></textarea>
                 </div>
 
             </form>

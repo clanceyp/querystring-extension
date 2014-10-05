@@ -1,70 +1,72 @@
 'use strict';
 
-var html5rocks = {};
-html5rocks.indexedDB = {};
-html5rocks.indexedDB.db = null;
-html5rocks.dbname = "test1";
-html5rocks.experiences = [];
+window.OP = window.OP || {};
+OP.indexedDB = {};
+OP.indexedDB.db = null;
+OP.dbname = "test1";
+OP.experiences = [];
 
-html5rocks.indexedDB.open = function() {
+OP.indexedDB.open = function() {
   var version = 1;
-  var request = indexedDB.open(html5rocks.dbname, version);
+  var request = indexedDB.open(OP.dbname, version);
 
   request.onsuccess = function(e) {
-    html5rocks.indexedDB.db = e.target.result;
+    OP.indexedDB.db = e.target.result;
     // Do some more stuff in a minute
   };
 
-  request.onerror = html5rocks.indexedDB.onerror;
+  request.onerror = OP.indexedDB.onerror;
 };
-html5rocks.indexedDB.open = function() {
+OP.indexedDB.open = function() {
   var version = 1;
-  var request = indexedDB.open(html5rocks.dbname, version);
+  var request = indexedDB.open(OP.dbname, version);
 
   // We can only create Object stores in a versionchange transaction.
   request.onupgradeneeded = function(e) {
     var db = e.target.result;
 
     // A versionchange transaction is started automatically.
-    e.target.transaction.onerror = html5rocks.indexedDB.onerror;
+    e.target.transaction.onerror = OP.indexedDB.onerror;
 
-    if(db.objectStoreNames.contains(html5rocks.dbname)) {
-      db.deleteObjectStore(html5rocks.dbname);
+    if(db.objectStoreNames.contains(OP.dbname)) {
+      db.deleteObjectStore(OP.dbname);
     }
 
-    var store = db.createObjectStore(html5rocks.dbname,
-      {keyPath: "uid"});
+    var store = db.createObjectStore(
+      OP.dbname,
+      {keyPath: "uid"}
+    );
   };
 
   request.onsuccess = function(e) {
-    html5rocks.indexedDB.db = e.target.result;
-    html5rocks.indexedDB.getAllItems();
+    OP.indexedDB.db = e.target.result;
+    OP.indexedDB.getAllItems();
   };
 
-  request.onerror = html5rocks.indexedDB.onerror;
+  request.onerror = OP.indexedDB.onerror;
 };
 window.experiences = [];
-html5rocks.indexedDB.delete = function(uid) {
-  var db = html5rocks.indexedDB.db;
-  var trans = db.transaction([html5rocks.dbname], "readwrite");
-  var store = trans.objectStore(html5rocks.dbname);
+OP.indexedDB.delete = function(uid) {
+  var db = OP.indexedDB.db;
+  var trans = db.transaction([OP.dbname], "readwrite");
+  var store = trans.objectStore(OP.dbname);
 
   var request = store.delete(uid);
 
   trans.oncomplete = function(e) {
       console.log('deleted')
-    //html5rocks.indexedDB.getAllTodoItems();  // Refresh the screen
+    //OP.indexedDB.getAllTodoItems();  // Refresh the screen
   };
 
   request.onerror = function(e) {
     console.log(e);
   };
 };
-html5rocks.indexedDB.getAllItems = function() {
+OP.indexedDB.getAllItems = function() {
 
-  var db = html5rocks.indexedDB.db;
-  var trans = db.transaction([html5rocks.dbname], "readwrite");
-  var store = trans.objectStore(html5rocks.dbname);
+  var db = OP.indexedDB.db;
+  var trans = db.transaction([OP.dbname], "readwrite");
+  var store = trans.objectStore(OP.dbname);
 
   // Get everything in the store;
   var keyRange = IDBKeyRange.lowerBound(0);
@@ -72,8 +74,9 @@ html5rocks.indexedDB.getAllItems = function() {
 
   cursorRequest.onsuccess = function(e) {
     var result = e.target.result;
-    if(!!result == false)
+    if(!!result == false){
       return;
+    }
 
     experiences.push(result.value);
     console.log( result.value )
@@ -82,30 +85,22 @@ html5rocks.indexedDB.getAllItems = function() {
     ops.data.uid = ops.uid;
     console.log('hello', ops);
     if (!ops.data.url) {
-        console.log('hello delete ', i, ops.uid);
-        html5rocks.indexedDB.delete(ops.uid);
+        // console.log('hello delete ', i, ops.uid);
+        // OP.indexedDB.delete(ops.uid);
     } else {
-      console.log('hello display', ops.data);
+      // console.log('hello display', ops.data);
       viewModel.addExperience(ops.data);      
     }
-
-    
-
     result.continue();
-
   };
 
-  cursorRequest.onerror = html5rocks.indexedDB.onerror;
-  cursorRequest.oncomplete = function(e){
-    alert( 'boom' );
-    // viewModel.addAll(html5rocks.experiences);
-  }
+  cursorRequest.onerror = OP.indexedDB.onerror;
 };
 
-html5rocks.indexedDB.add = function(obj) {
-  var db = html5rocks.indexedDB.db;
-  var trans = db.transaction([html5rocks.dbname], "readwrite");
-  var store = trans.objectStore(html5rocks.dbname);
+OP.indexedDB.add = function(obj) {
+  var db = OP.indexedDB.db;
+  var trans = db.transaction([OP.dbname], "readwrite");
+  var store = trans.objectStore(OP.dbname);
   var request = store.put({
     "data": obj.data,
     "uid" : obj.uid || performance.now()
@@ -113,7 +108,7 @@ html5rocks.indexedDB.add = function(obj) {
 
   trans.oncomplete = function(e) {
     // Re-render all the todo's
-    // html5rocks.indexedDB.getAllTodoItems();
+    // OP.indexedDB.getAllTodoItems();
     console.log("complete ", e);
   };
 
@@ -122,7 +117,7 @@ html5rocks.indexedDB.add = function(obj) {
   };
 };
 
-html5rocks.indexedDB.open()
+OP.indexedDB.open()
 
 
 var Experience = function(ops){
@@ -132,11 +127,14 @@ var Experience = function(ops){
         self.url = ko.observable(ops.url);
         self.variant = ko.observable(ops.variant);
         self.active = ko.observable(ops.active);
+        self.title = ko.observable(ops.title);
         self.uid = ops.uid || performance.now();
         self.ID = ops.id;
         self.URL = ops.url;
         self.VARIANT = ops.variant;
+        self.TITLE = ops.title;
         self.ACTIVE = ops.active;
+        self.VALID = ops.valid;
 
         self.id.subscribe(function(value) {
             self.ID = value;
@@ -146,6 +144,7 @@ var Experience = function(ops){
         });
         self.url.subscribe(function(value) {self.URL = value; if (_parent) {_parent.save();}});
         self.variant.subscribe(function(value) {self.VARIANT = value; if (_parent) {_parent.save();}});
+        self.title.subscribe(function(value) {self.TITLE = value; if (_parent) {_parent.save();}});
         self.active.subscribe(function(value) {self.ACTIVE = value; if (_parent) {_parent.save();}});
 
         return self;
@@ -156,29 +155,14 @@ var ExperienceModel = function(experiences) {
     self.experiences = ko.observableArray(experiences);
 
     self.addExperience = function(data) {
-        data = data || { url: "", id: "", variant : "1", active : "true" };
+        data = data || { url: "", id: "", variant : "1", active : "true", title: "" };
         data.parent = self;
         self.experiences.push(new Experience( data ));
     };
 
-    self.addAll = function(experiences){
-      for (var i = 0, data, string; i < experiences.length; i++){
-          //string = experiences[i].replace('"','\"');
-          data = JSON.parse(experiences[i].data);
-          data.uid = experiences[i].uid;
-          if (!data.url) {
-              html5rocks.indexedDB.delete(uid);
-              continue;
-          }
-
-          console.log('hello', i, data)
-          // viewModel.addExperience(data);
-      }
-    };
-
     self.removeExperience = function(experience) {
         self.experiences.remove(experience);
-        html5rocks.indexedDB.delete(experience.uid);
+        OP.indexedDB.delete(experience.uid);
     };
 
     self.save = function(form) {
@@ -190,14 +174,20 @@ var ExperienceModel = function(experiences) {
             console.log(data)
             store.active = data.ACTIVE;
             store.url = data.URL;
+            store.id = data.ID;
             store.variant = data.VARIANT;
+            store.title = data.TITLE;
+            store.valid = false;
+            if (store.url && store.title && store.id){
+              store.valid = true;
+            }
             //console.log("data ", data.uid,  ko.utils.stringifyJson( data ));
-            html5rocks.indexedDB.add( {
+            OP.indexedDB.add( {
                 uid: data.uid,
                 data: ko.utils.stringifyJson( store )
             } );
         }
-//        html5rocks.indexedDB.add("hello");
+//        OP.indexedDB.add("hello");
     };
 };
 

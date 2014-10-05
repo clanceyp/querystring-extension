@@ -5,11 +5,20 @@
         <!-- bower:css -->
         <!-- endbower -->
         <!-- endbuild -->
+        <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
+        <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <link href="styles/popup.less" rel="stylesheet/less">
         <script src="scripts/vendor/less.js"></script>
         <script src="scripts/vendor/zepto.js"></script>
         <script src="scripts/vendor/knockout-3.2.0.js"></script>
+
         <style>
+            h1 {
+                font-family: 'Cabin', sans-serif;
+            }
+            .experience__form {
+                padding-bottom: 40px;
+            }
             .experience__item__experience {
                 width : 200px;
             }
@@ -19,17 +28,29 @@
             .experience__item__variant {
                 width : 60px
             }
+            .experience__remove {
+                color: #333;
+                font-size: 1.2rem;
+            }
+            .float-right {
+                float: right;
+            }
         </style>
+
     </head>
     <body>
 
         <div class="page">
             <h1>Optimizely Experiment Previewer</h1>
             <form class="experience__form">
-                <p>You have asked for <span data-bind='text: experiences().length'>&nbsp;</span> gift(s)</p>
+                <p>
+                <button class="float-right" data-bind='click: addExperience'>Add Experience</button>
+
+                You have <span data-bind='text: experiences().length'>&nbsp;</span> experience(s)</p>
                 <table data-bind='visible: experiences().length > 0'>
                     <thead>
                         <tr>
+                            <th>Experience title</th>
                             <th>Experience URL</th>
                             <th>ID</th>
                             <th>Default variant</th>
@@ -39,16 +60,17 @@
                     </thead>
                     <tbody data-bind='foreach: experiences'>
                         <tr>
+                            <td><input class='experience__item experience__item__experience' data-bind='value: title' /></td>
                             <td><input class='experience__item experience__item__experience' data-bind='value: url' /></td>
                             <td><input class='experience__item experience__item__id' data-bind='value: id' /></td>
                             <td><input class='experience__item experience__item__variant' data-bind='value: variant' /></td>
                             <td><input class='active' type="checkbox" data-bind='checked: active' /></td>
-                            <td><a href='#' data-bind='click: $root.removeExperience'>Remove</a></td>
+                            <td><a href='#' class="experience__remove " data-bind='click: $root.removeExperience'><span class="fa fa-trash"></span></a></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <button data-bind='click: addExperience'>Add Experience</button>
+                
                 <!--
                     <button data-bind='enable: experiences().length > 0' type='submit'>Submit</button>
                 -->
