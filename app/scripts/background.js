@@ -29,7 +29,7 @@ var OP = {
         }
         if ( OP.isAllowedUrl( tab.url ) ){
             chrome.pageAction.setIcon( {path: path, tabId:tab.id } );
-            chrome.pageAction.show( tab.id );    
+            chrome.pageAction.show( tab.id );   
         } 
     },
     updatePageIcon : function(){
@@ -54,15 +54,10 @@ var OP = {
     },
     addOrUpdateQS : function(url){
         if ( OP.urlContainsUnchangedQS(url) ){
-            console.log("addOrUpdateQS nothing")
             return url;
         } else if ( OP.urlContainsQS(url) ){
-            console.log("addOrUpdateQS update")
-
             return OP.updateQS(url);
         } else {
-            console.log("addOrUpdateQS add")            
-
             return OP.addQS(url);
         }
     },
@@ -105,12 +100,14 @@ var OP = {
     isAllowedUrl : function( url ){
         var test = false,
             allowedurls = OP.db.ops.URLs;
+
         allowedurls.forEach(function( el ){
             if ( el && url.startsWith( el ) ){
                 var testset = OP.setCurrentAttrs(el);
                 return test = true;
             }
-        })
+        });
+
         return test;
     },
     getValue : function(ops){
@@ -138,7 +135,6 @@ var OP = {
     },
     requestHandler : function(details){
         if ( OP.isRedirected || !OP.OPS.active ){
-            console.log('doing nothing', OP.urlContainsUnchangedQS( details.url ), !OP.OPS.active )
             return {};
         } else {
             OP.isRedirected = true;
@@ -176,8 +172,17 @@ var OP = {
 
 
 
-
-
+if (!String.prototype.startsWith) {
+  Object.defineProperty(String.prototype, 'startsWith', {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+    value: function (searchString, position) {
+      position = position || 0;
+      return this.lastIndexOf(searchString, position) === position;
+    }
+  });
+}
 
 
 
