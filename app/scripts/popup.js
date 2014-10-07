@@ -5,7 +5,7 @@
     var backgroundPage = chrome.extension.getBackgroundPage(),
         popup = {},
         active = backgroundPage.OP.OPS.active,
-        variant = backgroundPage.OP.OPS.variant,
+        variant = backgroundPage.OP.value(),
         title = backgroundPage.OP.OPS.title;
 
     $("input[type=text], input[type=hidden]").on("keyup",function(e){
@@ -22,7 +22,6 @@
     $("input[name=variant]").on("keyup",function(e){
     	var $el = $(e.target);
     	backgroundPage.OP.OPS.variant = $el.val();
-        console.log(backgroundPage.OP.OPS.variant)
     });
     $(".__title").html( title );
 

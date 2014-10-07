@@ -38,7 +38,7 @@ var OP = {
         });
     },
     value : function(){
-        return OP.OPS.variant;
+        return OP.OPS.variant || "1";
     },
     key : function(){
         return "optimizely_x" + OP.OPS.id;
@@ -97,7 +97,7 @@ var OP = {
     setCurrentAttrs : function(url){
         OP.OPS.currentUrl = url;
         // OP.OPS.active = OP.db.ops.hash[url].active;
-        OP.OPS.variant = OP.db.ops.hash[url].variant;
+        // OP.OPS.variant = OP.db.ops.hash[url].variant;
         OP.OPS.id = OP.db.ops.hash[url].id;
         OP.OPS.title = OP.db.ops.hash[url].title;
         return true;
