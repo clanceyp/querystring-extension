@@ -9,6 +9,9 @@
         <script src="scripts/vendor/less.js"></script>
         <script src="scripts/vendor/zepto.js"></script>
         <style>
+        .__title {
+            font-weight: bold;
+        }
         </style>
     </head>
     <body>
@@ -16,14 +19,14 @@
         <div class="page">
             <h1>Optimizely Experiment Previewer</h1>
             <form>
+                <p>
+                    <span class="__title"></span> Experiment Preview
+                </p>
                 <div class="form__row">
-                    <label class="form__ios-switch-container"><span class="form__label form__lable--title">Optimizely <span class="form__title"></span></span>
+
+                    <label class="form__ios-switch-container"><span class="form__label form__lable--title">Optimizely active</span>
                         <input type="checkbox" name="active" class="form__ios-switch" checked /><div class="switch"></div>
                     </label>
-                </div>
-                <div class="form__row" style="display:none">
-                    <label for="experiment" class="form__label">Experiment</label>
-                    <input type="text" name="experiment" id="experiment" class="form__input text_center" />
                 </div>
                 <div class="form__row">
                     <label for="variant" class="form__label">Variant</label>

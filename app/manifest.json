@@ -11,7 +11,8 @@
     "background": {
         "scripts": [
             "scripts/uris.js",
-            "scripts/background.js"
+            "scripts/background.js",
+            "scripts/op.db.js"
         ]
     },
   "page_action": {

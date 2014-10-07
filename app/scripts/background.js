@@ -16,15 +16,21 @@ chrome.tabs.onUpdated.addListener(function (tabId) {
 });
 
 var OP = {
+    OPS : {
+        currentUrl : "",
+        filterURLs : [],
+        URLs : [],
+        current : {}
+    },
     showPageIcon : function( tab ){
         var path = 'images/icon-19.png';
-        if (!OP.getValue({ key: "active", defaultValue : false, type : "boolean" })){
+        if (!OP.OPS.active){
             path = 'images/icon-19-disabled.png';
         }
         if ( OP.isAllowedUrl( tab.url ) ){
             chrome.pageAction.setIcon( {path: path, tabId:tab.id } );
             chrome.pageAction.show( tab.id );    
-        }
+        } 
     },
     updatePageIcon : function(){
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -32,10 +38,10 @@ var OP = {
         });
     },
     value : function(){
-        return OP.getValue({ key: "variant" });
+        return OP.OPS.variant;
     },
     key : function(){
-        return "optimizely_x" + OP.getValue({ key: "experiment" });
+        return "optimizely_x" + OP.OPS.id;
     },
     qs : function(){
         return OP.key() +"="+ OP.value();
@@ -48,10 +54,15 @@ var OP = {
     },
     addOrUpdateQS : function(url){
         if ( OP.urlContainsUnchangedQS(url) ){
+            console.log("addOrUpdateQS nothing")
             return url;
         } else if ( OP.urlContainsQS(url) ){
+            console.log("addOrUpdateQS update")
+
             return OP.updateQS(url);
         } else {
+            console.log("addOrUpdateQS add")            
+
             return OP.addQS(url);
         }
     },
@@ -83,11 +94,20 @@ var OP = {
     addUrl : function(url){
         allowedurls.push(url);
     },
+    setCurrentAttrs : function(url){
+        OP.OPS.currentUrl = url;
+        // OP.OPS.active = OP.db.ops.hash[url].active;
+        OP.OPS.variant = OP.db.ops.hash[url].variant;
+        OP.OPS.id = OP.db.ops.hash[url].id;
+        OP.OPS.title = OP.db.ops.hash[url].title;
+        return true;
+    },
     isAllowedUrl : function( url ){
         var test = false,
-            allowedurls = OP.getValue( {key : "allowedUrls", type : "array", defaultValue : "[]"} );
+            allowedurls = OP.db.ops.URLs;
         allowedurls.forEach(function( el ){
-            if ( el && url.startsWith( el.substring(0, el.length-1 ) ) ){
+            if ( el && url.startsWith( el ) ){
+                var testset = OP.setCurrentAttrs(el);
                 return test = true;
             }
         })
@@ -117,15 +137,23 @@ var OP = {
         return null;
     },
     requestHandler : function(details){
-        if ( OP.urlContainsUnchangedQS( details.url ) || !OP.getValue({ key: "active", defaultValue : false, type : "boolean" }) ){
+        if ( OP.isRedirected || !OP.OPS.active ){
+            console.log('doing nothing', OP.urlContainsUnchangedQS( details.url ), !OP.OPS.active )
             return {};
         } else {
+            OP.isRedirected = true;
+            OP.timer = setTimeout(function(){
+                OP.isRedirected = false;
+            },10);
             return { redirectUrl: OP.addOrUpdateQS( details.url ) };
         }
     },
+    getArrayOfURLs : function(){
+        return OP.db.ops.filterURLs;
+        //return OP.getValue( {key : "allowedUrls", type : "array", defaultValue : "[]"} );
+    },    
     setListener : function() {
-        var ArrayOfURLs = OP.getValue( {key : "allowedUrls", type : "array", defaultValue : "[]"} );
-        console.log('gets here', ArrayOfURLs.length)
+        var ArrayOfURLs = OP.getArrayOfURLs();
         if (ArrayOfURLs.length){
             try {
                 chrome.webRequest.onBeforeRequest.removeListener( OP.requestHandler );
@@ -136,15 +164,15 @@ var OP = {
                 );
                 chrome.webRequest.handlerBehaviorChanged();
             }catch(e){
-                if (console){
-                    console.log( e );
-                }
             }
         }
+    },
+    init : function(){
+        OP.setListener();
     }
 }
 
-OP.setListener();
+
 
 
 
