@@ -1,4 +1,4 @@
-'use strict';
+
 
 window.OP = window.OP || {};
 OP.indexedDB = {};
