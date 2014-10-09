@@ -12,6 +12,14 @@
         .__title {
             font-weight: bold;
         }
+        .link {
+            color: green;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+        .float_right {
+            float: right;
+        }
         </style>
     </head>
     <body>
@@ -20,7 +28,7 @@
             <h1>Optimizely Experiment Previewer</h1>
             <form>
                 <p>
-                    <span class="__title"></span> Experiment Preview
+                    <span class="__title"></span>
                 </p>
                 <div class="form__row">
 
@@ -34,7 +42,10 @@
                 </div>
 
             </form>
-
+            <p>
+            <a class="float_right link options">Options</a>
+            <a class="reload link">Reload</a>
+            </p>
         </div>
         <!-- build:js scripts/popup.js -->
         <script src="scripts/popup.js"></script>
