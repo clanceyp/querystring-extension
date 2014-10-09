@@ -1,13 +1,12 @@
 {
     "name": "Optimizely Experience Previewer",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "manifest_version": 2,
     "description": "Appends Optimizely query-string paramaters to page URLs",
     "icons": {
         "16": "images/icon-16.png",
         "128": "images/icon-128.png"
     },
-    "default_locale": "en",
     "background": {
         "scripts": [
             "scripts/vendor/uris.js",
@@ -20,7 +19,7 @@
       "19": "images/icon-19.png",
       "38": "images/icon-38.png"
     },
-    "default_title": "Optimizely Experience Previewer 0.1.3",
+    "default_title": "Optimizely Experience Previewer 0.1.5",
     "default_popup": "popup.html"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
