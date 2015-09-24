@@ -3,7 +3,7 @@
 window.OP = window.OP || {};
 OP.indexedDB = {};
 OP.indexedDB.db = null;
-OP.dbname = "test1";
+OP.dbname = "optimizely-previewer";
 OP.db = { ops : {
   filterURLs : [],
   URLs : [],
@@ -98,25 +98,29 @@ OP.indexedDB.getAllItems = function(callback) {
         callback(OP.db.ops.experinces);
       }
       OP.setListener();
+      OP.setCurrentAttrs(null);
       return;
     }
     var ops = result.value;
-    //ops.data = JSON.parse(ops.data);
+    if (!ops.uid){
+        console.log("no id");
+        return;
+    };
+    if (!ops.data){
+        console.log("no data");
+        console.table(result.value);
+        return;
+    };
     ops.data.uid = ops.uid;
     OP.db.ops = OP.db.ops || {};
     if (ops.data.url){
       OP.db.ops.URLs.push( ops.data.url );
       OP.db.ops.filterURLs.push( OP.makeUrl( ops.data.url ) );
-      OP.db.ops.hash[ ops.data.url ] = {
-        active : ops.data.active,
-        id : ops.data.id,
-        variant : ops.data.variant,
-        title : ops.data.title
-      };
+      OP.db.ops.hash[ ops.data.url ] = ops.data;
     }
     OP.db.ops.experinces.push(ops.data);
     if (window.viewModel) {
-      viewModel.addExperience(ops.data);      
+      viewModel.addExperience(ops.data);
     }
     result.continue();
   };
@@ -136,7 +140,7 @@ OP.indexedDB.add = function(obj) {
   trans.oncomplete = function(e) {
     // Re-render all the todo's
     // OP.indexedDB.getAllTodoItems();
-    console.log("complete add", e);
+    // console.log("complete add", e);
     OP.getAllItems();
   };
 

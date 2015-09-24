@@ -1,6 +1,6 @@
 {
     "name": "Optimizely Experience Previewer",
-    "version": "0.2.2",
+    "version": "0.2.6",
     "manifest_version": 2,
     "description": "Appends Optimizely query-string paramaters to page URLs",
     "icons": {
@@ -20,7 +20,7 @@
       "19": "images/icon-19.png",
       "38": "images/icon-38.png"
     },
-    "default_title": "Optimizely Experience Previewer 0.2.2",
+    "default_title": "Optimizely Experience Previewer",
     "default_popup": "popup.html"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.optimizelyapis.com; object-src 'self'",

@@ -5,12 +5,20 @@
         <!-- bower:css -->
         <!-- endbower -->
         <!-- endbuild -->
+
         <link href="styles/popup.less" rel="stylesheet/less">
         <script src="scripts/vendor/less.js"></script>
         <script src="scripts/vendor/zepto.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Nova+Flat' rel='stylesheet' type='text/css'>
         <style>
+        body {
+            font-family: 'Nova Flat', cursive;
+        }
         .__title {
+            display: block;
+            font-size: 125%;
             font-weight: bold;
+            text-align: center;
         }
         .link {
             color: green;
@@ -20,6 +28,10 @@
         .float_right {
             float: right;
         }
+        .smaller {
+            font-size: 90%;
+        }
+
         </style>
     </head>
     <body>
@@ -42,9 +54,9 @@
                 </div>
 
             </form>
-            <p>
-            <a class="float_right link options">Options</a>
-            <a class="reload link">Reload</a>
+            <p class="smaller">
+                <a class="float_right link options">Options</a>
+                <a class="reload link">Reload</a>
             </p>
         </div>
         <!-- build:js scripts/popup.js -->

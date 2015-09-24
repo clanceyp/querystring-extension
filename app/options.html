@@ -58,6 +58,12 @@
                 line-height: 150%;
                 width: 80%;
             }
+            img.display {
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
+                display:block;
+                margin-top: 10px;
+            }
         </style>
 
     </head>
@@ -67,16 +73,16 @@
             <h1>Optimizely Experiment Previewer</h1>
             <form class="experience__form">
                 <p>
-                <button class="float-right" data-bind='click: addExperience'>Add Experience</button>
-
-                You have <span data-bind='text: experiences().length'>&nbsp;</span> experience(s)</p>
+                You have <span data-bind='text: experiences().length'>&nbsp;</span> experience(s)
+                </p>
                 <table data-bind='visible: experiences().length > 0'>
                     <thead>
                         <tr>
                             <th>Experience title</th>
                             <th>Experience URL</th>
-                            <th>ID</th>
-                            <td>Online</td>
+                            <th>Experience ID</th>
+                            <th>Default variant</th>
+                            <td>Active</td>
                             <td></td>
                         </tr>
                     </thead>
@@ -85,30 +91,35 @@
                             <td><input class='experience__item experience__item__experience' data-bind='value: title' /></td>
                             <td><input class='experience__item experience__item__experience' data-bind='value: url' /></td>
                             <td><input class='experience__item experience__item__id' data-bind='value: id' /></td>
-                            <!--
+
                             <td><input class='experience__item experience__item__variant' data-bind='value: variant' /></td>
-                            -->
+
                             <td class="text-center"><input class='active' type="checkbox" data-bind='checked: active' /></td>
                             <td><a title="Remove item" href='#' class="experience__remove " data-bind='click: $root.removeExperience'><span class="fa fa-trash"></span></a></td>
                         </tr>
                     </tbody>
                 </table>
+                <p>
+                <button  data-bind='click: addExperience'>Add Experience</button>
+                </p>
                 <!--
                     <button data-bind='enable: experiences().length > 0' type='submit'>Submit</button>
                     -->
                 <p class="experience__info">
                     <strong>Experience URL</strong>
-                    these should point to the root folder of the experinece, for example, if the url is 
-                    <strong>http://www.mydomain.com/shop/guitars</strong> 
-                    this extension will add the query string param to all pages within the <strong>guitars</strong> folder and below. 
+                    these should point to the root folder of the experinece, for example, if the url is
+                    <strong>http://www.mydomain.com/shop/guitars</strong>
+                    this extension will add the query string param to all pages within the <strong>guitars</strong> folder and below.
                 </p>
                 <p class="experience__info">
-                    Multiple experiences within the same folder are currently not supported.
-                </p>        
+                    To set the experience variant, navigate to experience URL
+                    and an Optermizly icon will appear in the browser address bar right hand side,
+                    click on the icon to set the variant. <img class="display" src="images/screenshot.png" alt="" />
+                </p>
             </form>
         </div>
-        
+
         <script src="scripts/options.js"></script>
-        
+
     </body>
 </html>

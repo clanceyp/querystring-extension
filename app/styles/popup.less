@@ -35,7 +35,7 @@ p {
     text-align: center;
 }
 .form__row {
-    border-bottom: 1px dashed #ccc;
+    // border-bottom: 1px dashed #ccc;
     margin-bottom: 8px;
     padding-bottom: 8px;
 }
@@ -118,12 +118,14 @@ h1 {
     font-size: 150%; /* change this and see how they adjust! */
     margin: 0 .1em;
     overflow: hidden;
-    transition-duration: .4s;
+    transition-duration: 0;
     transition-property: padding, width, background-position, text-indent;
     vertical-align: middle;
     width: 3em; height: 1em;
 }
-
+.ready .form__ios-switch + div {
+    transition-duration: 400ms;
+}
 .form__ios-switch:checked + div {
     background-position: 0 0;
     padding-left: 2em;  width: 1em;

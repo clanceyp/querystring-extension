@@ -1,122 +1,4 @@
-'use strict';
 
-// window.OP = window.OP || {};
-// OP.indexedDB = {};
-// OP.indexedDB.db = null;
-// OP.dbname = "test1";
-
-// OP.indexedDB.open = function() {
-//   var version = 1;
-//   var request = indexedDB.open(OP.dbname, version);
-
-//   request.onsuccess = function(e) {
-//     OP.indexedDB.db = e.target.result;
-//     // Do some more stuff in a minute
-//   };
-
-//   request.onerror = OP.indexedDB.onerror;
-// };
-// OP.indexedDB.open = function() {
-//   var version = 1;
-//   var request = indexedDB.open(OP.dbname, version);
-
-//   // We can only create Object stores in a versionchange transaction.
-//   request.onupgradeneeded = function(e) {
-//     var db = e.target.result;
-
-//     // A versionchange transaction is started automatically.
-//     e.target.transaction.onerror = OP.indexedDB.onerror;
-
-//     if(db.objectStoreNames.contains(OP.dbname)) {
-//       db.deleteObjectStore(OP.dbname);
-//     }
-
-//     var store = db.createObjectStore(
-//       OP.dbname,
-//       {keyPath: "uid"}
-//     );
-//   };
-
-//   request.onsuccess = function(e) {
-//     OP.indexedDB.db = e.target.result;
-//     OP.indexedDB.getAllItems();
-//   };
-
-//   request.onerror = OP.indexedDB.onerror;
-// };
-// window.experiences = [];
-// OP.indexedDB.delete = function(uid) {
-//   var db = OP.indexedDB.db;
-//   var trans = db.transaction([OP.dbname], "readwrite");
-//   var store = trans.objectStore(OP.dbname);
-
-//   var request = store.delete(uid);
-
-//   trans.oncomplete = function(e) {
-//       console.log('deleted')
-//     //OP.indexedDB.getAllTodoItems();  // Refresh the screen
-//   };
-
-//   request.onerror = function(e) {
-//     console.log(e);
-//   };
-// };
-// OP.indexedDB.getAllItems = function() {
-
-//   var db = OP.indexedDB.db;
-//   var trans = db.transaction([OP.dbname], "readwrite");
-//   var store = trans.objectStore(OP.dbname);
-
-//   // Get everything in the store;
-//   var keyRange = IDBKeyRange.lowerBound(0);
-//   var cursorRequest = store.openCursor(keyRange);
-
-//   cursorRequest.onsuccess = function(e) {
-//     var result = e.target.result;
-//     if(!!result == false){
-//       return;
-//     }
-
-//     experiences.push(result.value);
-//     console.log( result.value )
-//     var ops = result.value;
-//     ops.data = JSON.parse(ops.data);
-//     ops.data.uid = ops.uid;
-//     console.log('hello', ops);
-//     if (!ops.data.url) {
-//         // console.log('hello delete ', i, ops.uid);
-//         // OP.indexedDB.delete(ops.uid);
-//     } else {
-//       // console.log('hello display', ops.data);
-//       viewModel.addExperience(ops.data);      
-//     }
-//     result.continue();
-//   };
-
-//   cursorRequest.onerror = OP.indexedDB.onerror;
-// };
-
-// OP.indexedDB.add = function(obj) {
-//   var db = OP.indexedDB.db;
-//   var trans = db.transaction([OP.dbname], "readwrite");
-//   var store = trans.objectStore(OP.dbname);
-//   var request = store.put({
-//     "data": obj.data,
-//     "uid" : obj.uid || performance.now()
-//   });
-
-//   trans.oncomplete = function(e) {
-//     // Re-render all the todo's
-//     // OP.indexedDB.getAllTodoItems();
-//     console.log("complete ", e);
-//   };
-
-//   request.onerror = function(e) {
-//     console.log("error", e);
-//   };
-// };
-
-// OP.indexedDB.open();
 
 var backgroundPage = chrome.extension.getBackgroundPage(),
     getOPS = function(){
@@ -131,6 +13,10 @@ var backgroundPage = chrome.extension.getBackgroundPage(),
       for (; i < experinces.length ; i++){
         viewModel.addExperience( experinces[i] ); 
       }
+      // alert( experinces.length )
+      //if (experinces.length === 0){
+        // viewModel.add();
+      //}
     },
     init = function(){
       getOPS();
@@ -178,8 +64,9 @@ var ExperienceModel = function(experiences) {
 
     self.removeExperience = function(experience) {
         self.experiences.remove(experience);
-        alert(experience.uid)
-        backgroundPage.OP.indexedDB.delete(experience.uid);
+        if (confirm("Remove Item")){
+            backgroundPage.OP.indexedDB.delete(experience.uid);
+        }
     };
 
     self.save = function(form) {
@@ -198,10 +85,10 @@ var ExperienceModel = function(experiences) {
             if (store.url && store.title && store.id){
               store.valid = true;
             }
-            
+            // overwrite existing record
+            console.log("saving", data.uid, store)
             backgroundPage.OP.indexedDB.add( {
                 uid: data.uid,
-                //data: ko.utils.stringifyJson( store )
                 data : store
             } );
         }
@@ -218,7 +105,7 @@ viewModel.experiences.subscribe(function(){
     viewModel.save();
 });
 
-init()
+init();
 
 // Activate jQuery Validation
 // $("form").validate({ submitHandler: viewModel.save });
